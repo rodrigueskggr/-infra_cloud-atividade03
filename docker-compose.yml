@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  netatividade:
+    driver: bridge
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    networks:
+      - netatividade
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=banco
+      - MYSQL_TCP_PORT=3306
+
+  nginx:
+    image: nginx
+    restart: always
+    networks:
+      - netatividade
+    ports:
+      - 80:80
+    depends_on:
+      - mysqldb
